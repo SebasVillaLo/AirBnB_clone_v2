@@ -115,15 +115,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-<<<<<<< HEAD
-
-        args = param.split()
-
-        if not args:
-=======
         arg_s = args.split()
         if not arg_s:
->>>>>>> bd1947cb5a62e888fe5f76702d54943a91800e61
             print("** class name missing **")
             return
 
@@ -143,56 +136,6 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[arg_s[0]]()
         new_instance.__dict__.update(**kwarg)
         storage.save()
-<<<<<<< HEAD
-
-        args = args.split()
-        if len(args) == 0:
-
-        args = args.split(' ')
-        params = args[1:]
-
-        new_keys = []
-        new_values = []
-
-        if not args[0]:
-            print("** class name missing **")
-            return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-
-        for i in params:
-            tk = i.split('=', 1)
-            key = tk[0]
-            new_keys.append(key)
-            try:
-                value = tk[1]
-                if value[0] and value[-1] == '\"':
-                    value = value.replace('\"', "")
-                    value = value.replace('_', ' ')
-                    new_values.append(key)
-                else:
-                    if '.' in value:
-                        try:
-                            value = float(value)
-                            new_values.append(value)
-                        except Exception:
-                            pass
-                    else:
-                        try:
-                            value = int(value)
-                            new_values.append(value)
-                        except Exception:
-                            pass
-            except Exception:
-                pass
-        Dict = dict(zip(new_keys, new_values))
-
-        new_instance = HBNBCommand.classes[args[0]]()
-        new_instance.__dict__.update(Dict)
-        new_instance.save()
-=======
->>>>>>> bd1947cb5a62e888fe5f76702d54943a91800e61
         print(new_instance.id)
 
     def help_create(self):
