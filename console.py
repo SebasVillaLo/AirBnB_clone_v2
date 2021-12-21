@@ -10,7 +10,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from shlex import split
 
 
 class HBNBCommand(cmd.Cmd):
@@ -20,16 +19,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -74,14 +73,9 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-
                     if pline[0] == '{' and pline[-1] == '}'\
-                            and type(eval(pline)) == dict:
-
-                        if pline[0] == '{' and pline[-1] =='}'\
                             and type(eval(pline)) is dict:
-
-                            _args = pline
+                        _args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
@@ -121,29 +115,35 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+<<<<<<< HEAD
 
         args = param.split()
 
         if not args:
+=======
+        arg_s = args.split()
+        if not arg_s:
+>>>>>>> bd1947cb5a62e888fe5f76702d54943a91800e61
             print("** class name missing **")
             return
 
-        if args[0] not in HBNBCommand.classes:
+        if arg_s[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
+        kwarg = {}
+        for find in arg_s[1:]:
+            search = find.split("=")[1].replace("\"", '').replace("_", " ")
+            if find.split("=")[0] in HBNBCommand.types.keys():
+                kwarg[find.split("=")[0]] = HBNBCommand.types[find.split("=")
+                                                              [0]](search)
+            else:
+                kwarg[find.split("=")[0]] = search
 
-        kwargs = {}
-        for parameters in range(1, len(args)):
-            ky, value = parameters.split("=")
-            if value[0] == '"':
-                value = value.strip('"').replace("\"", '').replace("_", " ")
-
-            kwargs[ky] = value
-        
-        new_instance = HBNBCommand.classes[args[0]]()
+        new_instance = HBNBCommand.classes[arg_s[0]]()
         new_instance.__dict__.update(**kwarg)
         storage.save()
+<<<<<<< HEAD
 
         args = args.split()
         if len(args) == 0:
@@ -191,6 +191,8 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[args[0]]()
         new_instance.__dict__.update(Dict)
         new_instance.save()
+=======
+>>>>>>> bd1947cb5a62e888fe5f76702d54943a91800e61
         print(new_instance.id)
 
     def help_create(self):
@@ -387,8 +389,6 @@ class HBNBCommand(cmd.Cmd):
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
+
 if __name__ == "__main__":
-    try:
-        HBNBCommand().cmdloop()
-    except KeyboardInterrupt:
-        print("\n\nThanks :D\n")
+    HBNBCommand().cmdloop()
