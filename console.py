@@ -2,7 +2,6 @@
 """ Console Module """
 import cmd
 import sys
-import shlex
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -120,27 +119,9 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def function(self, args):
-        Dict = {}
-        for arg in args:
-            if '=' in arg:
-                token = arg.split('=', 1)
-                value = token[1]
-                if value[0] == value[-1] == '"':
-                    value = shlex.slit(value)[0].replace('_', ' ')
-                else:
-                    try:
-                        value = int(token[1])
-                    except ValueError:
-                        try:
-                            value = float(token[1])
-                        except ValueError:
-                            continue
-                Dict[token[0]] = value
-        return Dict
-
     def do_create(self, args):
         """ Create an object of any class"""
+<<<<<<< HEAD
 
         args = param.split()
 
@@ -167,16 +148,54 @@ class HBNBCommand(cmd.Cmd):
 
         args = args.split()
         if len(args) == 0:
+=======
+        args = args.split(' ')
+        params = args[1:]
+
+        new_keys = []
+        new_values = []
+
+        if not args[0]:
+>>>>>>> c03695a7f28b46b3bfef40e7942fec2ad12a7f0c
             print("** class name missing **")
             return
-        elif args[0] in HBNBCommand.classes:
-            dictnew = self.function(args[1:])
-            new_instance = HBNBCommand.classes[args[0]]()
-            new_instance.__dict__.update(dictnew)
-        else:
+        elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+<<<<<<< HEAD
 
+=======
+        for i in params:
+            tk = i.split('=', 1)
+            key = tk[0]
+            new_keys.append(key)
+            try:
+                value = tk[1]
+                if value[0] and value[-1] == '\"':
+                    value = value.replace('\"', "")
+                    value = value.replace('_', ' ')
+                    new_values.append(key)
+                else:
+                    if '.' in value:
+                        try:
+                            value = float(value)
+                            new_values.append(value)
+                        except Exception:
+                            pass
+                    else:
+                        try:
+                            value = int(value)
+                            new_values.append(value)
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+        Dict = dict(zip(new_keys, new_values))
+
+        new_instance = HBNBCommand.classes[args[0]]()
+        new_instance.__dict__.update(Dict)
+        new_instance.save()
+>>>>>>> c03695a7f28b46b3bfef40e7942fec2ad12a7f0c
         print(new_instance.id)
 
     def help_create(self):
