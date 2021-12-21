@@ -115,48 +115,27 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        args = args.split(' ')
-        params = args[1:]
-
-        new_keys = []
-        new_values = []
-
-        if not args[0]:
+        arg_s = args.split()
+        if not arg_s:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        if arg_s[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        for i in params:
-            tk = i.split('=', 1)
-            key = tk[0]
-            new_keys.append(key)
-            try:
-                value = tk[1]
-                if value[0] and value[-1] == '\"':
-                    value = value.replace('\"', "")
-                    value = value.replace('_', ' ')
-                    new_values.append(key)
-                else:
-                    if '.' in value:
-                        try:
-                            value = float(value)
-                            new_values.append(value)
-                        except Exception:
-                            pass
-                    else:
-                        try:
-                            value = int(value)
-                            new_values.append(value)
-                        except Exception:
-                            pass
-            except Exception:
-                pass
-        Dict = dict(zip(new_keys, new_values))
 
-        new_instance = HBNBCommand.classes[args[0]]()
-        new_instance.__dict__.update(Dict)
-        new_instance.save()
+        kwarg = {}
+        for find in arg_s[1:]:
+            search = find.split("=")[1].replace("\"", '').replace("_", " ")
+            if find.split("=")[0] in HBNBCommand.types.keys():
+                kwarg[find.split("=")[0]] = HBNBCommand.types[find.split("=")
+                                                              [0]](search)
+            else:
+                kwarg[find.split("=")[0]] = search
+
+        new_instance = HBNBCommand.classes[arg_s[0]]()
+        new_instance.__dict__.update(**kwarg)
+        storage.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -355,7 +334,4 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == "__main__":
-    try:
-        HBNBCommand().cmdloop()
-    except KeyboardInterrupt:
-        print("\n\nThanks :D\n")
+    HBNBCommand().cmdloop()
