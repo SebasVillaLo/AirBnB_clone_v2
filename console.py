@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import shlex
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -74,9 +75,14 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
+
                     if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) == dict:
-                        _args = pline
+
+                        if pline[0] == '{' and pline[-1] =='}'\
+                            and type(eval(pline)) is dict:
+
+                            _args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
@@ -114,6 +120,25 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    def function(self, args):
+        Dict = {}
+        for arg in args:
+            if '=' in arg:
+                token = arg.split('=', 1)
+                value = token[1]
+                if value[0] == value[-1] == '"':
+                    value = shlex.slit(value)[0].replace('_', ' ')
+                else:
+                    try:
+                        value = int(token[1])
+                    except ValueError:
+                        try:
+                            value = float(token[1])
+                        except ValueError:
+                            continue
+                Dict[token[0]] = value
+        return Dict
+
     def do_create(self, args):
         """ Create an object of any class"""
 
@@ -139,6 +164,19 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[args[0]]()
         new_instance.__dict__.update(**kwarg)
         storage.save()
+
+        args = args.split()
+        if len(args) == 0:
+            print("** class name missing **")
+            return
+        elif args[0] in HBNBCommand.classes:
+            dictnew = self.function(args[1:])
+            new_instance = HBNBCommand.classes[args[0]]()
+            new_instance.__dict__.update(dictnew)
+        else:
+            print("** class doesn't exist **")
+            return
+
         print(new_instance.id)
 
     def help_create(self):
@@ -336,4 +374,7 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
 if __name__ == "__main__":
-    HBNBCommand().cmdloop()
+    try:
+        HBNBCommand().cmdloop()
+    except KeyboardInterrupt:
+        print("\n\nThanks :D\n")
