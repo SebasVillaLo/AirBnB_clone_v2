@@ -28,12 +28,12 @@ class BaseModel:
                 if ky != "__class__" and ky != "_sa_instance_state":
                      setattr(self, ky, value)
 
-                if "created_at" not in kwargs:
-                    self.created_at = datetime.now()
-                if "updated_at" not in kwargs:
-                    self.updated_at = datetime.now()
-                if not self.id:
-                     self.id = str(uuid.uuid4())
+            if "created_at" not in kwargs:
+                self.created_at = datetime.now()
+            if "updated_at" not in kwargs:
+                self.updated_at = datetime.now()
+            if not self.id:
+                self.id = str(uuid.uuid4())
                                            
     def __str__(self):
         """Returns a string representation of the instance"""
