@@ -9,14 +9,11 @@ from models.city import City
 
 
 class State(BaseModel, Base):
-    """ 
-    State class 
-    """
+    """  Implementation for the State """
     if models.type_storage == "db":
         __tablename__ = "states"
         name = Column(String(128), nullable=False)
         cities = relationship('City')
-
     else:
         name = ''
         cities = models.storage.all(City)

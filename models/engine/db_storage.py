@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" define a class """
+"""This module defines a class to manage database storage for hbnb clone"""
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -13,7 +13,7 @@ from models.amenity import Amenity
 
 
 class DBStorage:
-    """The new engine DBStorage"""
+    """ DBStorage class"""
     __engine = None
     __session = None
 
@@ -28,7 +28,7 @@ class DBStorage:
                                       format(user, pwd, host, db),
                                       pool_pre_ping=True)
 
-        if env == "test":
+        if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -41,14 +41,14 @@ class DBStorage:
         classes = [State, City, User, Place, Review, Amenity]
         if cls:
             classes = [cls]
-        for i in classes:
-            for ky in self.__session.query(i).all():
-                key = "{}.{}".format(type(ky).__name__, ky.id)
-                my_dict[key] = ky
+        for j in classes:
+            for k in self.__session.query(j).all():
+                key = "{}.{}".format(type(k).__name__, k.id)
+                my_dict[key] = k
         return my_dict
 
     def new(self, obj):
-        """Create a new object"""
+        '''Create a new object'''
         self.__session.add(obj)
 
     def save(self):
@@ -65,6 +65,8 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker()
         Session.configure(bind=self.__engine)
+        # Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        # Session = scoped_session(Session)
         self.__session = Session()
 
     def close(self):

@@ -13,11 +13,10 @@ place_amenity = Table('place_amenity', Base.metadata, Column('place_id',
                       Column('amenity_id', String(60),
                       ForeignKey('amenities.id'), nullable=False))
 
+
 if getenv("HBNB_TYPE_STORAGE") == "db":
     class Place(BaseModel, Base):
-        """
-         A place to stay 
-        """
+        """ A place to stay """    
         __tablename__ = "places"
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60),  ForeignKey('users.id'), nullable=False)
@@ -31,12 +30,10 @@ if getenv("HBNB_TYPE_STORAGE") == "db":
         longitude = Column(Float, nullable=True)
 
         amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False)
+                                viewonly=False)
 else:
-    class Place(BaseModel):
-        """
-        efined class to work with FileStorage
-        """
+    class User(BaseModel):
+        """Defined class to work with FileStorage"""
         city_id = ""
         user_id = ""
         name = ""
@@ -55,17 +52,12 @@ else:
 
     @property
     def amenities(self):
-        """
-        Function getter to amenities
-        """
-        from models.amenity import Amenity
+        '''Function getter to amenities'''
         self.amenity_ids = models.storage.all(Amenity)
         return self.amenity_ids
 
     @amenities.setter
     def amenities(self, id):
-        """
-        Function setter to amenities
-        """
+        '''Function setter to amenities'''
         if id.__class__.__name__ == "Amenity":
             self.amenity_ids.append(id)
