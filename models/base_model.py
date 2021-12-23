@@ -24,7 +24,7 @@ class BaseModel:
         else:
             for ky, value in kwargs.items():
                 if ky == "created_at" or ky == "updated_at":
-                    value = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if ky != "__class__" and ky != "_sa_instance_state":
                      setattr(self, ky, value)
 
