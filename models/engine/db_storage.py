@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+""" define a class """
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -41,8 +41,8 @@ class DBStorage:
         classes = [State, City, User, Place, Review, Amenity]
         if cls:
             classes = [cls]
-        for j in classes:
-            for ky in self.__session.query(j).all():
+        for i in classes:
+            for ky in self.__session.query(i).all():
                 key = "{}.{}".format(type(ky).__name__, ky.id)
                 my_dict[key] = ky
         return my_dict
