@@ -125,8 +125,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         kwarg = {}
-        for find in arg_s [1:]:
-            search = find.split("=")[1].replace("\"", '').replace("_"," ")
+        for find in arg_s[1:]:
+            search = find.split("=")[1].replace("\"", '').replace("_", " ")
             if find.split("=")[0] in HBNBCommand.types.keys():
                 kwarg[find.split("=")[0]] = HBNBCommand.types[find.split("=")
                                                               [0]](search)
