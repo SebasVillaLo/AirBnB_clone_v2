@@ -117,26 +117,25 @@ class HBNBCommand(cmd.Cmd):
             SyntaxError: when there is no args given
             NameError: when there is no object taht has the name
         """
-        try:
-            if not args:
-                raise SyntaxError()
-            my_list = args.split(" ")
-            # print(my_list)
-            obj = eval("{}()".format(my_list[0]))
-            # print(obj)
-            # print(my_list[1:])
-            for x in my_list[1:]:
-                ag = x.split("=")
-                ag[1] = eval(ag[1])
-                if type(ag[1]) is str:
-                    ag[1] = ag[1].replace("_", " ")
-                setattr(obj, ag[0], ag[1])
-            obj.save()
-            print("{}".format(obj.id))
-        except SyntaxError:
-            print("** class name missing **")
-        except NameError:
+        arg_s = args.split()
+        if not arg_s:
+            print("** class name missing")
+            return
+        if arg_s[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
+            return
+        kwarg = {}
+        for find in arg_s [1:]:
+            search = find.split("=")[1].replace("\"", '').replace("_"," ")
+            if find.split("=")[0] in HBNBCommand.types.keys():
+                kwarg[find.split("=")[0]] = HBNBCommand.types[find.split("=")
+                                                              [0]](search)
+            else:
+                kwarg[find.split("=")[0]] = search
+        new_instance = HBNBCommand.classes[arg_s[0]]()
+        new_instance.__dict__.update(**kwarg)
+        storage.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
