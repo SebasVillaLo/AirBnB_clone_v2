@@ -1,13 +1,19 @@
 #!/usr/bin/python3
+
 """
-Fabric script (based on the file 2-do_deploy_web_static.py)
-that creates and distributes an archive to your web servers,
-using the function deploy
+Deployment 3
+
 """
-from datetime import datetime
-from fabric.api import put, run, env, local
-from os.path import exists, isdir
-env.hosts = {'23.21.15.186', '34.138.82.74'}
+
+from fabric.api import env, put, run, local
+from os.path import isdir, exists
+import datetime
+
+env.hosts = ['35.237.25.66', '34.234.71.240']
+
+env.user = "ubuntu"
+
+date_now = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
 
 def do_pack():
