@@ -10,6 +10,7 @@ from os.path import exists
 
 env.hosts = {'23.21.15.186', '34.138.82.74'}
 
+
 def do_deploy(archive_path):
     """
     Fabric script (based on the file 1-pack_web_static.py)
