@@ -18,8 +18,8 @@ def do_pack():
     try:
         date = datetime.now().strftime("%Y%m%d%H%M%S")
         local("mkdir -p versions")
-        tgzName = "web_static_" + date + ".tgz"
-        path_archive = local("tar -czvf versions/{} web_static".format(tgzName))
-        return path_archive
+        tgzName = "web_static_{}.tgz".format(date)
+        path_archive = local("tar -cvzf versions/{} web_static".format(tgzName))
+        return tgzName
     except Exception:
         return None
