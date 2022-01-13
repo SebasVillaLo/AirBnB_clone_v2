@@ -19,6 +19,6 @@ def do_pack():
     local("mkdir -p versions")
     tgzName = ("web_static_" + date + ".tgz")
     path_archive = local("tar -czvf versions/{} web_static".format(tgzName))
-    if exists(path_archive) is False:
+    if path_archive.failed:
         return None
     return path_archive
