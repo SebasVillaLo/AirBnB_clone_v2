@@ -33,6 +33,7 @@ def do_deploy(archive_path):
     run('ln -s ' + re_archive + ' /data/web_static/current')
     return True
 
+
 def do_pack():
     """
     Fabric script that generates a .tgz archive from the contents
