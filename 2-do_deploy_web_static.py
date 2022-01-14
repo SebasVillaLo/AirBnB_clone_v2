@@ -20,7 +20,8 @@ def do_deploy(archive_path):
         path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
         run('mkdir -p {}{}/'.format(path, no_excep))
-        run('sudo tar -xzf /tmp/{} -C {}{}/'.format(filename, path, no_excep))
+        run('sudo tar -xzf /tmp/{} -C {}{}/'.
+        format(filename, path, no_excep))
         run('rm /tmp/{}'.format(filename))
         run('sudo mv {0}{1}/web_static/* {0}{1}/'.format(path, no_excep))
         run('rm -rf {}{}/web_static'.format(path, no_excep))
