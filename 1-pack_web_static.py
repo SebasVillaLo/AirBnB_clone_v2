@@ -20,7 +20,7 @@ def do_pack():
         if isdir("versions") is False:
             local("mkdir versions")
         tgzName = "web_static_{}.tgz".format(date)
-        path_file = local("tar -cvzf versions/{} web_static".format(tgzName))
+        local("tar -cvzf versions/{} web_static".format(tgzName))
         return tgzName
     except Exception:
         return None

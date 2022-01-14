@@ -2,14 +2,13 @@
 
 """
 Deployment 3
-
 """
 
 from fabric.api import env, put, run, local
 from os.path import isdir, exists
 import datetime
 
-env.hosts = ['35.237.25.66', '34.234.71.240']
+env.hosts = ['23.21.15.186', '	54.84.83.106']
 
 env.user = "ubuntu"
 
@@ -37,12 +36,12 @@ def do_deploy(archive_path):
         NFile_no_ext = nameFile.split(".")[0]
         path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
-        run('mkdir -p {}{}/'.format(path, NFile_no_ext))
-        run('tar -xzf /tmp/{} -C {}{}/'.format(nameFile, path, NFile_no_ext))
+        run('sudo mkdir -p {}{}/'.format(path, NFile_no_ext))
+        run('sudo tar -xzf /tmp/{} -C {}{}/'.format(nameFile, path, NFile_no_ext))
         run('rm /tmp/{}'.format(nameFile))
-        run('mv {0}{1}/web_static/* {0}{1}/'.format(path, NFile_no_ext))
+        run('sudo mv {0}{1}/web_static/* {0}{1}/'.format(path, NFile_no_ext))
         run('rm -rf {}{}/web_static'.format(path, NFile_no_ext))
-        run('rm -rf /data/web_static/current')
+        run('sudo rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, NFile_no_ext))
         return True
     except Exception:
