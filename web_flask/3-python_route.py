@@ -29,8 +29,8 @@ def CText(text):
 @app.route('/python/<text>', strict_slashes=False)
 def pythonText(text):
     """Two routes, the firts is for home python, the next route is for the arguments inserted for the user"""
-    textC = text.replace('_', ' ')
-    return ("Python {}".format(escape(textC)))
+    txt = text.replace('_', ' ')
+    return "Python {}".format(escape(txt))
 
 
 if __name__ == '__main__':
