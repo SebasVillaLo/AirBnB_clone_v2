@@ -19,6 +19,7 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
+            """This funtions add states at the list"""
             citiesList = []
             cities = models.storage.all(City)
             for city in cities.values():
