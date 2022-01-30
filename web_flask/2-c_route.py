@@ -2,7 +2,7 @@
 """
 Start my framework application
 """
-from flask import Flask
+from flask import Flask, escape
 app = Flask(__name__)
 
 
@@ -21,8 +21,8 @@ def hbnb():
 @app.route('/C/<text>', strict_slashes=False)
 def CText(text):
     """Using my variable to at url text"""
-    textC = text.replace("_", " ")
-    return ("C {}".format(textC))
+    textC = text.replace('_', ' ')
+    return ("C {}".format(escape(textC)))
 
 
 if __name__ == '__main__':

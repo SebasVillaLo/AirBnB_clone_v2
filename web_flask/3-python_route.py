@@ -1,27 +1,34 @@
 #!/usr/bin/python3
-from flask import Flask
+"""
+Start my framework application
+"""
+from flask import Flask, escape
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
 def index():
+    """Message to index application"""
     return "Hello HBNB!"
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
+    """Route to hbnb"""
     return "HBNB"
 
 
 @app.route('/C/<text>', strict_slashes=False)
 def CText(text):
-    textC = text.replace("_", " ")
-    return ("C {}".format(textC))
+    """Using my variable to at url text"""
+    textC = text.replace('_', ' ')
+    return ("C {}".format(escape(textC)))
 
 
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def pythonText(text="is cool"):
+    """Two routes, the firts is for home python, the next route is for the arguments inserted for the user"""
     textC = text.replace("_", " ")
     return ("Python {}".format(textC))
 
