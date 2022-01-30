@@ -22,6 +22,9 @@ else:
 
         @property
         def cities(self):
+            """
+            this funtion add the city in the list
+            """
             cities_list = []
             cities = models.storage.all(City).values()
             for city in cities:
