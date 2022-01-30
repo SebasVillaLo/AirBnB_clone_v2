@@ -1,20 +1,26 @@
 #!/usr/bin/python3
+"""
+Start my framework application
+"""
 from flask import Flask
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
 def index():
+    """Message to index application"""
     return "Hello HBNB!"
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
+    """Route to hbnb"""
     return "HBNB"
 
 
 @app.route('/C/<text>', strict_slashes=False)
 def CText(text):
+    """Using my variable to at url text"""
     textC = text.replace("_", " ")
     return ("C {}".format(textC))
 
