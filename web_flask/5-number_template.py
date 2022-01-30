@@ -25,9 +25,9 @@ def CText(text):
     return ("C {}".format(escape(textC)))
 
 
-@app.route('/python/', strict_slashes=False)
+@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def pythonText(text="is cool"):
+def pythonText(text):
     """Two routes, the firts is for home python, the next route is for the arguments inserted for the user"""
     textC = text.replace('_', ' ')
     return ("Python {}".format(escape(textC)))
