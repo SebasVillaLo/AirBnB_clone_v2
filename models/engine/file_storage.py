@@ -9,24 +9,25 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns a dictionary
-        Return:
-            returns a dictionary of __object
-        """
-        if cls is None:
-            return self.__objects
+        """Returns a dictionary of models currently in storage"""
+        dictionary = {}
+        if cls:
+            for key, value in FileStorage.__objects.items():
+                if value.__class__ == cls:
+                    dictionary[key] = value
+            return dictionary
+        return FileStorage.__objects
+
+    def delete(self, obj=None):
+        """THIS FUNCTION FUCKING DELETE"""
+        if obj:
+            for key, value in FileStorage.__objects.items():
+                if value == obj:
+                    del FileStorage.__objects[key]
+                    self.save()
+                    return
         else:
-            # print("CLASE: {}".format(cls))
-            my_dict = {}
-            # print("OBJECTS: {}".format(self.__objects))
-            for key in self.__objects:
-                name = key.split('.')
-                # print("NAME: {}".format(name))
-                # print("CLSNAME: {}".format(cls.__name__))
-                if name[0] == cls.__name__:
-                    my_dict[key] = self.__objects[key]
-            # print("MY_DICT: {}".format(my_dict))
-            return my_dict
+            pass
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -42,7 +43,11 @@ class FileStorage:
             json.dump(temp, f)
 
     def reload(self):
-        """Loads storage dictionary from file"""
+        """deserializes the JSON file to __objects
+        - only if the JSON file (__file_path) exists
+        - otherwise, do nothing.
+        - If the file doesn’t exist, no exception should be raised
+        """
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
@@ -51,28 +56,18 @@ class FileStorage:
         from models.amenity import Amenity
         from models.review import Review
 
-        classes = {
-            'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            'State': State, 'City': City, 'Amenity': Amenity,
-            'Review': Review
-        }
+        classes = {"BaseModel": BaseModel, "User": User, "State": State,
+                   "Amenity": Amenity, "Place": Place, "City": City,
+                   "Review": Review}
         try:
-            temp = {}
-            with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+            with open(self.__file_path, 'r', encoding='UTF-8') as file:
+                js = json.load(file)
+            for key, value in js.items():
+                reloadobj = classes[js[key]["__class__"]](**js[key])
+                self.__objects[key] = reloadobj
         except FileNotFoundError:
             pass
 
-    def delete(self, obj=None):
-        """ delete obj from __objects """
-        if obj:
-            del self.__objects[obj.__class__.__name__ + '.' + obj.id]
-            self.save()
-
     def close(self):
-        """
-        Call reload method
-        """
+        """method to reload"""
         self.reload()

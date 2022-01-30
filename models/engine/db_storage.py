@@ -61,13 +61,12 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        """ Create database in Alchemy"""
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker()
-        Session.configure(bind=self.__engine)
-        # Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        # Session = scoped_session(Session)
-        self.__session = Session()
+        session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        # scop_session = scoped_session(session)
+        # self.__session = scop_session()
+        self.__session = session()
+
 
     def close(self):
         """ Close Session """
