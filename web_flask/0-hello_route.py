@@ -8,10 +8,8 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def index():
-    """
-    Message to index application
-    """
-    return "Hello HBNB!”"
+    """Message to index application"""
+    return "Hello HBNB!"
 
 
 if __name__ == '__main__':
