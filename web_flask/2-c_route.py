@@ -19,10 +19,10 @@ def hbnb():
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def C_is_fun(text):
-    """returns a parameter by url as string"""
-    txt = text.replace('_', ' ')
-    return "C {}".format(escape(txt))
+def CText(text):
+    """Using my variable to at url text"""
+    textC = text.replace('_', ' ')
+    return ("C {}".format(escape(textC)))
 
 
 if __name__ == '__main__':
